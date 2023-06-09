@@ -14,7 +14,7 @@ sf=
 scale_factor=
 
 # The daemon port
-port=50000
+port=50010
 
 # Should we actually run?
 dry_run=

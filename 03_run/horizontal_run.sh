@@ -24,7 +24,7 @@ usage() {
 
 dbname=
 nruns=1
-port=50000
+port=50010
 tag="default"
 pipeline="default_pipe"
 
@@ -87,21 +87,22 @@ output="$dbname.timings.csv"
 optimizer="set optimizer='$pipeline';"
 TIMEFORMAT="%R"
 
-#today=$(date +%Y-%m-%d)
-#dir=results/"$today_$dbname_$tag"
+today=$(date +%Y-%m-%d)
+dir=results/"$today_$dbname_$tag"
 #mkdir -p "$dir"
 
-#echo "### Free memory before the run :###" | tee -a "$output"
-#echo "$(free -h)" | tee -a "$output"
+echo "### Free memory before the run :###" | tee -a "$output"
+echo "$(free -h)" | tee -a "$output"
 
 echo "# Database,Tag,Query,Min,Max,Average" | tee -a "$output"
 for i in $(ls ??.sql)
+#for i in {5}
 do
     echo "$optimizer" > "/tmp/$i"
     cat "$i" >> "/tmp/$i"
 
-    # iostat -t -m > /tmp/iostat
-    # avg=0
+    #iostat -t -m > /tmp/iostat
+    #avg=0
 
 
     max=0
@@ -114,7 +115,9 @@ do
         mclient -d "$dbname" -p "$port" -f raw -w 80 -i < "/tmp/$i" 2>&1 >/dev/null
         x=$(date +%s.%N)
 	elapsed=$(echo "scale=4; $x - $s" | bc)
-	
+
+        echo "elapsed: $elapsed"
+
 	if [ $(echo "$elapsed > $max" | bc) -eq 1 ] 
 	then
 	    max=$elapsed
