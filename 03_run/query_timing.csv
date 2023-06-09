@@ -1,0 +1,6 @@
+### Free memory before the run: ###
+              total        used        free      shared  buff/cache   available
+Mem:          251Gi        50Gi        11Gi       302Mi       189Gi       198Gi
+Swap:            0B          0B          0B
+# Database, Query, Time
+SF-100, select sum(l_extendedprice * (1 - l_discount)) as revenue from orders, lineitem where l_orderkey = o_orderkey and o_orderdate >= date '1994-01-01' and o_orderdate < date '1995-01-01';, 4.837763420
